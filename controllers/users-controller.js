@@ -19,7 +19,7 @@ const signup = async (req, res, next) => {
 	}
 	//console.log(user.length);
 	if (user.length) {
-		return next(new HTTPError("User already exists"), 500);
+		return next(new HTTPError("User already exists"), 406);
 	}
 	let hashedPassword;
 	try {
@@ -112,7 +112,7 @@ const followChannel = async (req, res, next) => {
 		);
 	}
 	if (userObj.following.includes(channel)) {
-		return next(new HTTPError("User is already following the channel"), 404);
+		return next(new HTTPError("User is already following the channel"), 403);
 		//res.json({ message: "User is already following the channel" });
 	}
 	//console.log(userObj.toObject({getters: true}));
@@ -149,7 +149,7 @@ const followChannel = async (req, res, next) => {
 		res.status(500);
 		res.json({ message: "Could not complete request!" });
 	}
-	res.status(201);
+	res.status(200);
 	res.json(result);
 };
 
@@ -169,7 +169,7 @@ const unfollowChannel = async (req, res, next) => {
 		);
 	}
 	if (!userObj.following.includes(channel)) {
-		return next(new HTTPError("User is not following the channel"), 404);
+		return next(new HTTPError("User is not following the channel"), 403);
 
 		//res.json({ message: "User is not following the channel" });
 	}

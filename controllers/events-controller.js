@@ -36,7 +36,7 @@ const createEvent = async (req, res, next) => {
 	try {
 		user = await User.findById(owner);
 	} catch (e) {
-		return next(new HTTPError("Something went wrong owner"), 500);
+		return next(new HTTPError("unauthorized"), 401);
 	}
 	if (!user) {
 		return next(new HTTPError("Could not find user with the given ID"), 404);
@@ -95,7 +95,7 @@ const updateEvent = async (req, res, next) => {
 			throw new Error();
 		}
 	} catch (e) {
-		return next(new HTTPError("Something went wrong(REQ).", 500));
+		return next(new HTTPError("You are unauthorized", 401));
 	}
 	if (!eventReq) {
 		return next(new HTTPError("Event out Found!", 404));
@@ -130,7 +130,7 @@ const deleteEvent = async (req, res, next) => {
 			throw new Error();
 		}
 	} catch (e) {
-		return next(new HTTPError("Something went wrong.", 500));
+		return next(new HTTPError("You are unauthorized", 401));
 	}
 	if (!eventReq) {
 		return next(new HTTPError("Event out Found!", 404));
